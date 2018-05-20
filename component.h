@@ -15,11 +15,11 @@ namespace PL0 {
 	};
 
 	class IdentifierTable {
+		map<string, int> varTable;
 	public:
 		vector<Variable> varSpace;
-		map<string, int> varTable;
 
-		unsigned int getVarSpaceIndexOf(string name) {
+		unsigned int getVarSpaceIndexOf(const string &name) {
 			return varTable[name];
 		}
 
@@ -53,9 +53,9 @@ namespace PL0 {
 	};
 
 	class ProcedureTable {
+		map<string, int> procTable;
 	public:
 		vector<Procedure> procSpace;
-		map<string, int> procTable;
 
 		int getProcIndexOf(const string& name) {
 			if (checkExists(name))

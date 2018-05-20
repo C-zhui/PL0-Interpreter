@@ -3,8 +3,10 @@
 #include <string>
 #include <set>
 
-namespace PL0{
+namespace PL0 {
 	using namespace std;
+
+	// 定义词法单元
 	class Token {
 	public:
 		Symbol type = Symbol::null;
@@ -14,6 +16,7 @@ namespace PL0{
 		bool operator < (const Token& o)const { return this->value < o.value; }
 	};
 
+	// 全局关键字
 	class __Global {
 	private:
 		set<Token> _keywords;
@@ -32,30 +35,22 @@ namespace PL0{
 			_keywords.insert(Token("const", Symbol::constsym));
 			_keywords.insert(Token("var", Symbol::varsym));
 			_keywords.insert(Token("procedure", Symbol::procsym));
+			_keywords.insert(Token("odd", Symbol::oddsym));
 		}
 	};
 
 	class inputCharStream {
-
 		istream &in;
 		bool got = false;
 		char buf;
-		char get() {
-			if (got)
-				return got = false, buf;
-			else
-				return got = true, buf = in.get();
-		}
-
-		void unget() { got = true; }
 
 	public:
 		inputCharStream(istream& InBuf) :in(InBuf) {}
 
 		char peek() {
-			char ret = get();
-			unget();
-			return ret;
+			if (got)
+				return buf;
+			return got = true, buf = in.get();
 		}
 
 		inputCharStream& move() { return got = false, *this; }
@@ -67,102 +62,93 @@ namespace PL0{
 		bool got = false;
 		Token buf;
 
-		Token get() {
-			if (got)
-				return got = false, buf;
-			else {
-				char c = cstream.peek();
-				while (c == ' ' || c == '\n' || c == '\t')  //去除空白
-					c = cstream.move().peek();
-
-				string s = "";
-				if (isalpha(c)) {
-					do {
-						s += c;
-						c = cstream.move().peek();
-					} while (isalnum(c));
-					const set<Token>& k = global.keywords();
-					const auto i = k.find(Token(s, Symbol::null));
-					if (i != k.end())
-						buf = Token(i->value, i->type);
-					else buf = Token(s, Symbol::identifier);
-				}
-				else if (isdigit(c)) {
-					do {
-						s += c;
-						c = cstream.move().peek();
-					} while (isdigit(c));
-					buf = Token(s, Symbol::number);
-				}
-				else {
-					cstream.move();
-					switch (c)
-					{
-					case '+':
-						buf = Token("", Symbol::plus);
-						break;
-					case '-':
-						buf = Token("", Symbol::minus);
-						break;
-					case '*':
-						buf = Token("", Symbol::times);
-						break;
-					case '/':
-						buf = Token("", Symbol::slash);
-						break;
-					case '=':
-						buf = Token("", Symbol::eql);
-						break;
-					case '#':
-						buf = Token("", Symbol::neq);
-						break;
-					case '<':
-						buf = cstream.peek() == '=' ? (cstream.move(), Token("", Symbol::leq)) : Token("", Symbol::lss);
-						break;
-					case '>':
-						buf = cstream.peek() == '=' ? (cstream.move(), Token("", Symbol::geq)) : Token("", Symbol::gtr);
-						break;
-					case '(':
-						buf = Token("", Symbol::lparen);
-						break;
-					case ')':
-						buf = Token("", Symbol::rparen);
-						break;
-					case ',':
-						buf = Token("", Symbol::comma);
-						break;
-					case ';':
-						buf = Token("", Symbol::semicolon);
-						break;
-					case '.':
-						buf = Token("", Symbol::period);
-						break;
-					case ':':
-						if (cstream.peek() == '=') {
-							buf = (cstream.move(), Token("", Symbol::becomes));
-							break;
-						}
-					default:
-						throw string("err lexical");
-					}
-				} 
-				return buf;
-			}
-		}
-
-		void unget() { got = true; }
-
 	public:
 		TokenStream(istream& inBuf) :cstream(inBuf) {}
-
-		Token peek() {
-			Token ret = get();
-			unget();
-			return ret;
-		}
-
-		TokenStream& move() {
-			return got = false, *this;
-		}
+		Token peek();
+		TokenStream& move() { return got = false, *this; }
 	};
+
+	Token TokenStream::peek(){
+		if (got)
+		return  buf;
+		else {
+			char c = cstream.peek();
+			while (c == ' ' || c == '\n' || c == '\t')  //去除空白
+				c = cstream.move().peek();
+
+			string s = "";
+			if (isalpha(c)) {
+				do {
+					s += c;
+					c = cstream.move().peek();
+				} while (isalnum(c));
+				const set<Token>& k = global.keywords();
+				const auto i = k.find(Token(s, Symbol::null));
+				if (i != k.end())
+					buf = Token(i->value, i->type);
+				else buf = Token(s, Symbol::identifier);
+			}
+			else if (isdigit(c)) {
+				do {
+					s += c;
+					c = cstream.move().peek();
+				} while (isdigit(c));
+				buf = Token(s, Symbol::number);
+			}
+			else {
+				cstream.move();
+				switch (c)
+				{
+				case '+':
+					buf = Token("", Symbol::plus);
+					break;
+				case '-':
+					buf = Token("", Symbol::minus);
+					break;
+				case '*':
+					buf = Token("", Symbol::times);
+					break;
+				case '/':
+					buf = Token("", Symbol::slash);
+					break;
+				case '=':
+					buf = Token("", Symbol::eql);
+					break;
+				case '#':
+					buf = Token("", Symbol::neq);
+					break;
+				case '<':
+					buf = cstream.peek() == '=' ? (cstream.move(), Token("", Symbol::leq)) : Token("", Symbol::lss);
+					break;
+				case '>':
+					buf = cstream.peek() == '=' ? (cstream.move(), Token("", Symbol::geq)) : Token("", Symbol::gtr);
+					break;
+				case '(':
+					buf = Token("", Symbol::lparen);
+					break;
+				case ')':
+					buf = Token("", Symbol::rparen);
+					break;
+				case ',':
+					buf = Token("", Symbol::comma);
+					break;
+				case ';':
+					buf = Token("", Symbol::semicolon);
+					break;
+				case '.':
+					buf = Token("", Symbol::period);
+					break;
+				case ':':
+					if (cstream.peek() == '=') {
+						buf = (cstream.move(), Token("", Symbol::becomes));
+						break;
+					}
+				default:
+					throw string("Lexical Error");
+				}
+			}
+			got = true;
+			return buf;
+		}
+	}
 }
