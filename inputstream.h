@@ -1,12 +1,13 @@
 #pragma once
 #include "enums.h"
+#include <ctype.h>
 #include <string>
 #include <set>
 
 namespace PL0 {
 	using namespace std;
 
-	// ¶¨Òå´Ê·¨µ¥Ôª
+	// å®šä¹‰è¯æ³•å•å…ƒ
 	class Token {
 	public:
 		Symbol type = Symbol::null;
@@ -16,7 +17,7 @@ namespace PL0 {
 		bool operator < (const Token& o)const { return this->value < o.value; }
 	};
 
-	// È«¾Ö¹Ø¼ü×Ö
+	// å…¨å±€å…³é”®å­—
 	class __Global {
 	private:
 		set<Token> _keywords;
@@ -73,7 +74,7 @@ namespace PL0 {
 		return  buf;
 		else {
 			char c = cstream.peek();
-			while (c == ' ' || c == '\n' || c == '\t')  //È¥³ı¿Õ°×
+			while (c == ' ' || c == '\n' || c == '\t')  //å»é™¤ç©ºç™½
 				c = cstream.move().peek();
 
 			string s = "";
