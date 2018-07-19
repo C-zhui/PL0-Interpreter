@@ -7,7 +7,7 @@ namespace PL0 {
 
 	class InstructionRunner {
 	private:
-		vector<int> cmptStack; // ¼ÆËãÕ»
+		vector<int> cmptStack; // è®¡ç®—æ ˆ
 		vector<Variable> &varSpace;
 		vector<Procedure> &procSpace;
 		int run(const Instruction& i);
@@ -24,7 +24,7 @@ namespace PL0 {
 			i = to >= 0 ? to - 1 : i;
 		}
 		if (!procInstruction)
-			instructions.resize(0);//³ı·ÇÊÇ¹ı³Ìµ÷ÓÃ£¬Ö´ĞĞÍê¾ÍÇå³ıÖ¸Áî
+			instructions.resize(0);//é™¤éæ˜¯è¿‡ç¨‹è°ƒç”¨ï¼Œæ‰§è¡Œå®Œå°±æ¸…é™¤æŒ‡ä»¤
 	}
 
 	int InstructionRunner::run(const Instruction& i) {

@@ -1,7 +1,7 @@
 #pragma once
 
 namespace PL0 {
-	enum class Symbol { // ´ÊËØ³£Á¿
+	enum class Symbol { // è¯ç´ å¸¸é‡
 		null, identifier, number,
 		plus, minus, times,slash,
 		oddsym, eql, neq,
@@ -13,7 +13,7 @@ namespace PL0 {
 		varsym, procsym
 	};
 
-	enum class Operator { // Ö¸Áî³£Á¿
+	enum class Operator { // æŒ‡ä»¤å¸¸é‡
 		add, minus, times, div,odd,
 		neg, push, jmp, jz, load, store,call,
 		eql, neq, lss, gtr, leq, geq,
@@ -32,7 +32,7 @@ end
 .
 */
 
-/* // ¼òµ¥ÇóºÍ
+/* // ç®€å•æ±‚å’Œ
 var a,b; 
 procedure sum;
 begin
@@ -47,7 +47,7 @@ end
 .
 */
 
-/* Çó1¼Óµ½10
+/* æ±‚1åŠ åˆ°10
 var a,b,sum;
 begin
 	a:=1;
@@ -63,7 +63,7 @@ begin
 end
 */
 
-/* // ´òÓ¡ 100 ÄÚµÄÖÊÊı
+/* // æ‰“å° 100 å†…çš„è´¨æ•°
 const max = 100;
 var arg, ret;
 procedure isprime;
@@ -96,7 +96,7 @@ end;
 call primes
 */
 
-/* // ´òÓ¡ 100 ÄÚµÄÖÊÊı
+/* // æ‰“å° 100 å†…çš„è´¨æ•°
 const max = 100;
 var arg, ret,ccc;
 procedure isprime;
@@ -130,7 +130,7 @@ end;
 call primes
 */
 
-/* // ì³²¨ÄÇÆõÊıÁĞ
+/* // æ–æ³¢é‚£å¥‘æ•°åˆ—
 
 var a,b,c,d;
 const n = 25;

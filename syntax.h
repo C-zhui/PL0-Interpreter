@@ -7,7 +7,7 @@
 #include "component.h"
 #include "instructionRunner.h"
 
-/*  ÏÂÃæµÄ´úÂë¶¼ÊÇ¸ù¾İÕâÌ× PL/0 Óï·¨½øĞĞ±àĞ´
+/*  ä¸‹é¢çš„ä»£ç éƒ½æ˜¯æ ¹æ®è¿™å¥— PL/0 è¯­æ³•è¿›è¡Œç¼–å†™
 	program = block "." .
 
 	block = [ "const" ident "=" number {"," ident "=" number} ";"]
@@ -37,10 +37,10 @@ namespace PL0 {
 	using namespace std;
 
 	class Syntax {
-		TokenStream &ts; //´ÊËØÁ÷
-		IdentifierTable& identifierTable; //±êÊ¶·û±í
-		ProcedureTable& procedureTable; //¹ı³Ì±í
-		InstructionRunner & runner; // Ö´ĞĞÆ÷
+		TokenStream &ts; //è¯ç´ æµ
+		IdentifierTable& identifierTable; //æ ‡è¯†ç¬¦è¡¨
+		ProcedureTable& procedureTable; //è¿‡ç¨‹è¡¨
+		InstructionRunner & runner; // æ‰§è¡Œå™¨
 	public:
 
 		Syntax(TokenStream &_ts, IdentifierTable&_identifierTable,
@@ -86,7 +86,7 @@ namespace PL0 {
 						declareProcedure();
 					else throw string("can't define procedure in procedure");
 					break;
-				case Symbol::period: //³ÌĞò½áÊø±êÖ¾
+				case Symbol::period: //ç¨‹åºç»“æŸæ ‡å¿—
 					return;
 				case Symbol::semicolon:
 					if (inProc)
@@ -238,14 +238,14 @@ namespace PL0 {
 			if (t.type == Symbol::thensym) {
 				ts.move();
 				statement(instructions);
-				int ind_jmp_to = instructions.size(); //if ¿éµÄÏÂÒ»ÌõÖ¸Áî
+				int ind_jmp_to = instructions.size(); //if å—çš„ä¸‹ä¸€æ¡æŒ‡ä»¤
 				instructions[ind_jz].operand = ind_jmp_to;
 			}
 			else throw string("espect then keyword here");
 			break;
 		case Symbol::whilesym:
 			ts.move();
-			before_while = instructions.size(); //conditionµÄµÚÒ»ÌõÖ¸Áî
+			before_while = instructions.size(); //conditionçš„ç¬¬ä¸€æ¡æŒ‡ä»¤
 			condition(instructions);
 			instructions.push_back(Instruction(Operator::jz));
 			ind_jz = instructions.size() - 1;
@@ -254,7 +254,7 @@ namespace PL0 {
 				ts.move();
 				statement(instructions);
 				instructions.push_back(Instruction(Operator::jmp, before_while));
-				ind_jmp_to = instructions.size(); //while ¿éµÄÏÂÒ»ÌõÖ¸Áî
+				ind_jmp_to = instructions.size(); //while å—çš„ä¸‹ä¸€æ¡æŒ‡ä»¤
 				instructions[ind_jz].operand = ind_jmp_to;
 			}
 			else throw string("espect do keyword here");

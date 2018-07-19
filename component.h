@@ -31,7 +31,7 @@ namespace PL0 {
 			if (varTable.count(name) != 0)
 				return false;
 			else {
-				varTable.insert_or_assign(name, varSpace.size());
+				varTable[name] = varSpace.size();
 				varSpace.push_back(Variable(isConst, constValue));
 				return true;
 			}
@@ -66,7 +66,7 @@ namespace PL0 {
 		bool add(const string &name, const Procedure& p) {
 			if (procTable.count(name) != 0)
 				return false;
-			procTable.insert_or_assign(name, procSpace.size());
+			procTable[name] = procSpace.size();
 			procSpace.push_back(p);
 			return true;
 		}
