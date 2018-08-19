@@ -1,4 +1,4 @@
-# PL0-interactive-command-line-executor
+# PL0-Interpreter
 
 this is a simple interpertor of PL/0 language
 
