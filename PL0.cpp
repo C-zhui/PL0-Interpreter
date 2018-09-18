@@ -2,31 +2,24 @@
 #include <iostream>
 using namespace std;
 using namespace PL0;
-void testCharStream() {
 
-	inputCharStream cs(cin);
-	while (cin) {
-		cout << cs.peek();
-		cs.move();
+int main(int argc, char const *argv[]) try
+{
+	if(argc==2){
+		if(freopen(argv[1],"r",stdin)==NULL)
+		{
+			cout << "file is invalid\n";
+			return 0;
+		}
 	}
-}
-
-void testTokenStream() {
-	TokenStream ts(cin);
-	while (cin) {
-		Token t = ts.peek();
-		ts.move();
-		cout << int(t.type) << "   " << t.value << endl;
+	else {
+		cout << "read script from stdin\n";
 	}
-}
-
-int main() try{
-	//testTokenStream();
-	//testCharStream();
 	PL_0 plc(cin);
 	plc.run();
 	return 0;
 }
-catch (string e) {
+catch (string e)
+{
 	cout << e << endl;
 }
